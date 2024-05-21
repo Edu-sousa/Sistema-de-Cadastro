@@ -68,9 +68,7 @@ public class TiposProdutosController implements ActionListener {
 		cadastraTipo(tipo.toString()); // chamando o metodo de cadastro com o toString como parametro
 
 		// limpando os campos depois do cadastro
-		tfCodigoTipo.setText("");
-		tfNomeTipo.setText("");
-		tfDescricaoTipo.setText("");
+		limpaTexto();
 	}
 
 	private void cadastraTipo(String csvTipo) throws IOException {
@@ -106,7 +104,7 @@ public class TiposProdutosController implements ActionListener {
 		ListaSetGenerica tipos = new ListaSetGenerica();
 
 		if (tipo.codIdentificador != 0) { // verificar se o codigo existe
-			tipo = buscaTipo(tipo.codIdentificador); // chama o metodo busca tipo com o codigo como parametro
+			tipo = buscaCodigo(tipo.codIdentificador); // chama o metodo busca tipo com o codigo como parametro
 			if (tipo != null) {
 				taListaTipos.setText("Codigo: " + tipo.codIdentificador + " - Nome: " + tipo.nome + " - Descrição: "
 						+ tipo.descricao);
@@ -132,12 +130,10 @@ public class TiposProdutosController implements ActionListener {
 			}
 			taListaTipos.setText(buffer.toString());
 		}
-		tfCodigoTipo.setText("");
-		tfNomeTipo.setText("");
-		tfDescricaoTipo.setText("");
+		limpaTexto();
 	}
 
-	private TipoProduto buscaTipo(int codIdentificador) throws IOException {
+	private TipoProduto buscaCodigo(int codIdentificador) throws IOException {
 
 		TipoProduto tipo = new TipoProduto();
 		String path = System.getProperty("user.home") + File.separator + "Sistema Cadastro";
@@ -230,5 +226,11 @@ public class TiposProdutosController implements ActionListener {
 			fis.close();
 		}
 		return listaTipos;
+	}
+	
+	public void limpaTexto() {
+		tfCodigoTipo.setText("");
+		tfNomeTipo.setText("");
+		tfDescricaoTipo.setText("");
 	}
 }

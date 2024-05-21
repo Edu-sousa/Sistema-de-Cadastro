@@ -7,6 +7,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import controller.ClientesFisicosController;
+import controller.ClientesJuridicosController;
+import controller.ComprasController;
 import controller.ProdutosController;
 import controller.TiposProdutosController;
 
@@ -21,6 +23,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.SwingConstants;
 import java.awt.Color;
+import java.awt.Scrollbar;
+import javax.swing.JScrollPane;
+import java.awt.BorderLayout;
 
 public class Tela extends JFrame {
 
@@ -41,6 +46,16 @@ public class Tela extends JFrame {
 	private JTextField tfNumero;
 	private JTextField tfComplemento;
 	private JTextField tfCep;
+	private JTextField tfLogradouroJuri;
+	private JTextField tfNumeroJuri;
+	private JTextField tfComplementoJuri;
+	private JTextField tfCepJuri;
+	private JTextField tfCnpj;
+	private JTextField tfNomeJuri;
+	private JTextField tfTelefone;
+	private JTextField tfEmail;
+	private JTextField tfProdutoCarrinho;
+	private JTextField tfValorCarrinho;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -69,166 +84,172 @@ public class Tela extends JFrame {
 		tabbedPane.setBounds(10, 11, 604, 419);
 		contentPane.add(tabbedPane);
 		
-		JPanel panel = new JPanel();
-		tabbedPane.addTab("Produtos", null, panel, "Pagina de Produtos");
-		panel.setLayout(null);
+		JPanel Produtos = new JPanel();
+		tabbedPane.addTab("Produtos", null, Produtos, "Pagina de Produtos");
+		Produtos.setLayout(null);
 		
 		JLabel lblNomeProduto = new JLabel("Nome");
 		lblNomeProduto.setBounds(59, 63, 46, 14);
 		lblNomeProduto.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		panel.add(lblNomeProduto);
+		Produtos.add(lblNomeProduto);
 		
 		JLabel lblValorProduto = new JLabel("Valor");
 		lblValorProduto.setBounds(59, 100, 46, 14);
 		lblValorProduto.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		panel.add(lblValorProduto);
+		Produtos.add(lblValorProduto);
 		
 		JLabel lblDescricaoProduto = new JLabel("Descri\u00E7\u00E3o");
 		lblDescricaoProduto.setBounds(59, 135, 74, 20);
 		lblDescricaoProduto.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		panel.add(lblDescricaoProduto);
+		Produtos.add(lblDescricaoProduto);
 		
 		JLabel lblQtdEstoque = new JLabel("Quantidade em Estoque");
 		lblQtdEstoque.setBounds(59, 174, 147, 14);
 		lblQtdEstoque.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		panel.add(lblQtdEstoque);
+		Produtos.add(lblQtdEstoque);
 		
 		tfNomeProduto = new JTextField();
 		tfNomeProduto.setBounds(220, 62, 86, 20);
-		panel.add(tfNomeProduto);
+		Produtos.add(tfNomeProduto);
 		tfNomeProduto.setColumns(10);
 		
 		tfValorProduto = new JTextField();
 		tfValorProduto.setBounds(220, 99, 86, 20);
-		panel.add(tfValorProduto);
+		Produtos.add(tfValorProduto);
 		tfValorProduto.setColumns(10);
 		
 		tfDescricaoProduto = new JTextField();
 		tfDescricaoProduto.setBounds(220, 137, 86, 20);
-		panel.add(tfDescricaoProduto);
+		Produtos.add(tfDescricaoProduto);
 		tfDescricaoProduto.setColumns(10);
 		
 		tfQtdProduto = new JTextField();
 		tfQtdProduto.setBounds(220, 173, 86, 20);
-		panel.add(tfQtdProduto);
+		Produtos.add(tfQtdProduto);
 		tfQtdProduto.setColumns(10);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(0, 220, 599, 171);
+		Produtos.add(scrollPane);
+		
 		JTextArea taListaProduto = new JTextArea();
-		taListaProduto.setBounds(0, 220, 599, 171);
-		panel.add(taListaProduto);
+		scrollPane.setViewportView(taListaProduto);
 		
 		JButton btnCadastrarProdutos = new JButton("Cadastrar");
-		btnCadastrarProdutos.setBounds(419, 77, 99, 23);
-		panel.add(btnCadastrarProdutos);
+		btnCadastrarProdutos.setBounds(435, 60, 99, 23);
+		Produtos.add(btnCadastrarProdutos);
 		
 		JButton btnBuscarProduto = new JButton("Buscar");
-		btnBuscarProduto.setBounds(419, 148, 99, 23);
-		panel.add(btnBuscarProduto);
+		btnBuscarProduto.setBounds(435, 146, 99, 23);
+		Produtos.add(btnBuscarProduto);
 		
 		
 		JLabel lblCodigo = new JLabel("Codigo ");
 		lblCodigo.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblCodigo.setBounds(59, 28, 99, 20);
-		panel.add(lblCodigo);
+		Produtos.add(lblCodigo);
 		
 		tfCodigo = new JTextField();
 		tfCodigo.setColumns(10);
 		tfCodigo.setBounds(220, 31, 86, 20);
-		panel.add(tfCodigo);
+		Produtos.add(tfCodigo);
 		
-		JPanel panel_2 = new JPanel();
-		tabbedPane.addTab("Tipos de Produto", null, panel_2, null);
-		panel_2.setLayout(null);
+		JPanel TiposDeProdutos = new JPanel();
+		tabbedPane.addTab("Tipos de Produto", null, TiposDeProdutos, null);
+		TiposDeProdutos.setLayout(null);
 		
 		JLabel lblTipoNome = new JLabel("Nome");
 		lblTipoNome.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblTipoNome.setBounds(57, 95, 46, 14);
-		panel_2.add(lblTipoNome);
+		TiposDeProdutos.add(lblTipoNome);
 		
 		JLabel lblDescricaoTipo = new JLabel("Descri\u00E7\u00E3o");
 		lblDescricaoTipo.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblDescricaoTipo.setBounds(57, 134, 96, 19);
-		panel_2.add(lblDescricaoTipo);
+		TiposDeProdutos.add(lblDescricaoTipo);
 		
 		JLabel lblCodigoTipo = new JLabel("Codigo");
 		lblCodigoTipo.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblCodigoTipo.setBounds(57, 58, 46, 17);
-		panel_2.add(lblCodigoTipo);
+		TiposDeProdutos.add(lblCodigoTipo);
 		
 		tfCodigoTipo = new JTextField();
 		tfCodigoTipo.setColumns(10);
 		tfCodigoTipo.setBounds(181, 58, 86, 20);
-		panel_2.add(tfCodigoTipo);
+		TiposDeProdutos.add(tfCodigoTipo);
 		
 		tfNomeTipo = new JTextField();
 		tfNomeTipo.setColumns(10);
 		tfNomeTipo.setBounds(181, 94, 86, 20);
-		panel_2.add(tfNomeTipo);
+		TiposDeProdutos.add(tfNomeTipo);
 		
 		tfDescricaoTipo = new JTextField();
 		tfDescricaoTipo.setColumns(10);
 		tfDescricaoTipo.setBounds(181, 133, 86, 20);
-		panel_2.add(tfDescricaoTipo);
+		TiposDeProdutos.add(tfDescricaoTipo);
 		
 		JButton btnCadastraTipo = new JButton("Cadastrar");
-		btnCadastraTipo.setBounds(386, 69, 99, 23);
-		panel_2.add(btnCadastraTipo);
+		btnCadastraTipo.setBounds(435, 60, 99, 23);
+		TiposDeProdutos.add(btnCadastraTipo);
 		
 		JButton btnBuscaTipo = new JButton("Buscar");
-		btnBuscaTipo.setBounds(386, 134, 99, 23);
-		panel_2.add(btnBuscaTipo);
+		btnBuscaTipo.setBounds(435, 146, 99, 23);
+		TiposDeProdutos.add(btnBuscaTipo);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(0, 220, 599, 171);
+		TiposDeProdutos.add(scrollPane_1);
 		
 		JTextArea taListaTipos = new JTextArea();
-		taListaTipos.setBounds(0, 220, 599, 171);
-		panel_2.add(taListaTipos);
+		scrollPane_1.setViewportView(taListaTipos);
 		
-		JPanel panel_1 = new JPanel();
-		tabbedPane.addTab("Clientes", null, panel_1, null);
-		panel_1.setLayout(null);
+		JPanel Clientes = new JPanel();
+		tabbedPane.addTab("Clientes", null, Clientes, null);
+		Clientes.setLayout(null);
 		
 		JLabel lblNomeCliente = new JLabel("Nome");
 		lblNomeCliente.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNomeCliente.setBounds(62, 49, 36, 14);
-		panel_1.add(lblNomeCliente);
+		Clientes.add(lblNomeCliente);
 		
 		JLabel lblCpf = new JLabel("CPF");
 		lblCpf.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblCpf.setBounds(62, 24, 46, 14);
-		panel_1.add(lblCpf);
+		Clientes.add(lblCpf);
 		
 		JLabel lblEnderecoCliente = new JLabel("Endere\u00E7o");
 		lblEnderecoCliente.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblEnderecoCliente.setBounds(62, 74, 78, 14);
-		panel_1.add(lblEnderecoCliente);
+		Clientes.add(lblEnderecoCliente);
 		
 		JLabel lblCelular = new JLabel("Celular");
 		lblCelular.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblCelular.setBounds(62, 190, 65, 14);
-		panel_1.add(lblCelular);
+		Clientes.add(lblCelular);
 		
 		tfCpf = new JTextField();
 		tfCpf.setColumns(10);
 		tfCpf.setBounds(156, 23, 86, 20);
-		panel_1.add(tfCpf);
+		Clientes.add(tfCpf);
 		
 		tfNomeCliente = new JTextField();
 		tfNomeCliente.setColumns(10);
 		tfNomeCliente.setBounds(156, 48, 86, 20);
-		panel_1.add(tfNomeCliente);
+		Clientes.add(tfNomeCliente);
 		
 		tfLogradouro = new JTextField();
+		tfLogradouro.setToolTipText("Logradouro");
 		tfLogradouro.setForeground(new Color(192, 192, 192));
 		tfLogradouro.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		tfLogradouro.setHorizontalAlignment(SwingConstants.LEFT);
-		tfLogradouro.setText("Logradouro");
 		tfLogradouro.setColumns(10);
 		tfLogradouro.setBounds(156, 73, 86, 20);
-		panel_1.add(tfLogradouro);
+		Clientes.add(tfLogradouro);
 		
 		tfCelular = new JTextField();
 		tfCelular.setColumns(10);
 		tfCelular.setBounds(156, 189, 86, 20);
-		panel_1.add(tfCelular);
+		Clientes.add(tfCelular);
 		
 		JButton btnCadastrarCliente = new JButton("Cadastrar");
 		btnCadastrarCliente.addActionListener(new ActionListener() {
@@ -236,47 +257,228 @@ public class Tela extends JFrame {
 			}
 		});
 		btnCadastrarCliente.setBounds(435, 60, 99, 23);
-		panel_1.add(btnCadastrarCliente);
+		Clientes.add(btnCadastrarCliente);
 		
 		JButton btnBuscarCliente = new JButton("Buscar");
 		btnBuscarCliente.setBounds(435, 146, 99, 23);
-		panel_1.add(btnBuscarCliente);
+		Clientes.add(btnBuscarCliente);
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		scrollPane_2.setBounds(0, 220, 599, 171);
+		Clientes.add(scrollPane_2);
 		
 		JTextArea taClientesFisicos = new JTextArea();
-		taClientesFisicos.setBounds(0, 220, 599, 171);
-		panel_1.add(taClientesFisicos);
+		scrollPane_2.setViewportView(taClientesFisicos);
+	
 		
 		tfNumero = new JTextField();
-		tfNumero.setText("Numero ");
+		tfNumero.setToolTipText("Numero");
 		tfNumero.setHorizontalAlignment(SwingConstants.LEFT);
 		tfNumero.setForeground(Color.LIGHT_GRAY);
 		tfNumero.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		tfNumero.setColumns(10);
 		tfNumero.setBounds(156, 99, 86, 20);
-		panel_1.add(tfNumero);
+		Clientes.add(tfNumero);
 		
 		tfComplemento = new JTextField();
-		tfComplemento.setText("Complemento");
+		tfComplemento.setToolTipText("Complemento");
 		tfComplemento.setHorizontalAlignment(SwingConstants.LEFT);
 		tfComplemento.setForeground(Color.LIGHT_GRAY);
 		tfComplemento.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		tfComplemento.setColumns(10);
 		tfComplemento.setBounds(156, 130, 86, 20);
-		panel_1.add(tfComplemento);
+		Clientes.add(tfComplemento);
 		
 		tfCep = new JTextField();
-		tfCep.setText("CEP");
+		tfCep.setToolTipText("CEP");
 		tfCep.setHorizontalAlignment(SwingConstants.LEFT);
 		tfCep.setForeground(Color.LIGHT_GRAY);
 		tfCep.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		tfCep.setColumns(10);
 		tfCep.setBounds(156, 158, 86, 20);
-		panel_1.add(tfCep);
+		Clientes.add(tfCep);
 		
+		JPanel Empresas = new JPanel();
+		tabbedPane.addTab("Empresas", null, Empresas, null);
+		Empresas.setLayout(null);
 		
+		JScrollPane scrollPane_3 = new JScrollPane();
+		scrollPane_3.setBounds(0, 220, 599, 171);
+		Empresas.add(scrollPane_3);
+		
+		JTextArea taClientesJuri = new JTextArea();
+		scrollPane_3.setViewportView(taClientesJuri);
+
+		
+		JLabel lblCnpj = new JLabel("CNPJ");
+		lblCnpj.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblCnpj.setBounds(62, 11, 46, 14);
+		Empresas.add(lblCnpj);
+		
+		JLabel lblNomeJuri = new JLabel("Nome");
+		lblNomeJuri.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNomeJuri.setBounds(62, 36, 46, 14);
+		Empresas.add(lblNomeJuri);
+		
+		JLabel lblTelefone = new JLabel("Telefone");
+		lblTelefone.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblTelefone.setBounds(58, 170, 62, 14);
+		Empresas.add(lblTelefone);
+		
+		JLabel lblEmail = new JLabel("E-mail");
+		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblEmail.setBounds(62, 195, 62, 14);
+		Empresas.add(lblEmail);
+		
+		JLabel lblEnderecoJuri = new JLabel("Endere\u00E7o");
+		lblEnderecoJuri.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblEnderecoJuri.setBounds(62, 61, 78, 14);
+		Empresas.add(lblEnderecoJuri);
+		
+		tfLogradouroJuri = new JTextField();
+		tfLogradouroJuri.setToolTipText("Logradouro");
+		tfLogradouroJuri.setText("Logradouro");
+		tfLogradouroJuri.setHorizontalAlignment(SwingConstants.LEFT);
+		tfLogradouroJuri.setForeground(Color.LIGHT_GRAY);
+		tfLogradouroJuri.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		tfLogradouroJuri.setColumns(10);
+		tfLogradouroJuri.setBounds(156, 59, 86, 20);
+		Empresas.add(tfLogradouroJuri);
+		
+		tfNumeroJuri = new JTextField();
+		tfNumeroJuri.setToolTipText("Numero ");
+		tfNumeroJuri.setText("Numero ");
+		tfNumeroJuri.setHorizontalAlignment(SwingConstants.LEFT);
+		tfNumeroJuri.setForeground(Color.LIGHT_GRAY);
+		tfNumeroJuri.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		tfNumeroJuri.setColumns(10);
+		tfNumeroJuri.setBounds(156, 90, 86, 20);
+		Empresas.add(tfNumeroJuri);
+		
+		tfComplementoJuri = new JTextField();
+		tfComplementoJuri.setToolTipText("Complemento");
+		tfComplementoJuri.setText("Complemento");
+		tfComplementoJuri.setHorizontalAlignment(SwingConstants.LEFT);
+		tfComplementoJuri.setForeground(Color.LIGHT_GRAY);
+		tfComplementoJuri.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		tfComplementoJuri.setColumns(10);
+		tfComplementoJuri.setBounds(156, 119, 86, 20);
+		Empresas.add(tfComplementoJuri);
+		
+		tfCepJuri = new JTextField();
+		tfCepJuri.setToolTipText("CEP");
+		tfCepJuri.setText("CEP");
+		tfCepJuri.setHorizontalAlignment(SwingConstants.LEFT);
+		tfCepJuri.setForeground(Color.LIGHT_GRAY);
+		tfCepJuri.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		tfCepJuri.setColumns(10);
+		tfCepJuri.setBounds(156, 150, 86, 20);
+		Empresas.add(tfCepJuri);
+		
+		JButton btnCadastrarClienteJ = new JButton("Cadastrar");
+		btnCadastrarClienteJ.setBounds(435, 60, 99, 23);
+		Empresas.add(btnCadastrarClienteJ);
+		
+		JButton btnBuscarClienteJ = new JButton("Buscar");
+		btnBuscarClienteJ.setBounds(435, 146, 99, 23);
+		Empresas.add(btnBuscarClienteJ);
+		
+		tfCnpj = new JTextField();
+		tfCnpj.setToolTipText("CNPJ");
+		tfCnpj.setHorizontalAlignment(SwingConstants.LEFT);
+		tfCnpj.setForeground(new Color(0, 0, 0));
+		tfCnpj.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		tfCnpj.setColumns(10);
+		tfCnpj.setBounds(156, 10, 86, 20);
+		Empresas.add(tfCnpj);
+		
+		tfNomeJuri = new JTextField();
+		tfNomeJuri.setToolTipText("Nome");
+		tfNomeJuri.setHorizontalAlignment(SwingConstants.LEFT);
+		tfNomeJuri.setForeground(new Color(0, 0, 0));
+		tfNomeJuri.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		tfNomeJuri.setColumns(10);
+		tfNomeJuri.setBounds(156, 35, 86, 20);
+		Empresas.add(tfNomeJuri);
+		
+		tfTelefone = new JTextField();
+		tfTelefone.setToolTipText("Telefone");
+		tfTelefone.setHorizontalAlignment(SwingConstants.LEFT);
+		tfTelefone.setForeground(new Color(0, 0, 0));
+		tfTelefone.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		tfTelefone.setColumns(10);
+		tfTelefone.setBounds(156, 168, 86, 20);
+		Empresas.add(tfTelefone);
+		
+		tfEmail = new JTextField();
+		tfEmail.setToolTipText("Email");
+		tfEmail.setHorizontalAlignment(SwingConstants.LEFT);
+		tfEmail.setForeground(new Color(0, 0, 0));
+		tfEmail.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		tfEmail.setColumns(10);
+		tfEmail.setBounds(156, 194, 86, 20);
+		Empresas.add(tfEmail);
+		
+		JPanel Carrinho = new JPanel();
+		tabbedPane.addTab("Carrinho", null, Carrinho, null);
+		Carrinho.setLayout(null);
+		
+		JScrollPane scrollPane_4 = new JScrollPane();
+		scrollPane_4.setBounds(0, 222, 597, 169);
+		Carrinho.add(scrollPane_4);
+		
+		JTextArea taLista = new JTextArea();
+		scrollPane_4.setViewportView(taLista);
+		
+		JButton btnAdicionar = new JButton("Adicionar");
+		btnAdicionar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnAdicionar.setBounds(423, 52, 99, 23);
+		Carrinho.add(btnAdicionar);
+		
+		JButton btnExcluir = new JButton("Excluir");
+		btnExcluir.setBounds(423, 116, 99, 23);
+		Carrinho.add(btnExcluir);
+		
+		JButton btnVisualizarCarrinho = new JButton("Visualizar Carrinho");
+		btnVisualizarCarrinho.setBounds(217, 188, 149, 23);
+		Carrinho.add(btnVisualizarCarrinho);
+		
+		JLabel lblProdutoCarrinho = new JLabel("Produto");
+		lblProdutoCarrinho.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblProdutoCarrinho.setBounds(49, 54, 68, 14);
+		Carrinho.add(lblProdutoCarrinho);
+		
+		JLabel lblValorCarrinho = new JLabel("Valor");
+		lblValorCarrinho.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblValorCarrinho.setBounds(62, 102, 62, 14);
+		Carrinho.add(lblValorCarrinho);
+		
+		tfProdutoCarrinho = new JTextField();
+		tfProdutoCarrinho.setToolTipText("CNPJ");
+		tfProdutoCarrinho.setHorizontalAlignment(SwingConstants.LEFT);
+		tfProdutoCarrinho.setForeground(Color.BLACK);
+		tfProdutoCarrinho.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		tfProdutoCarrinho.setColumns(10);
+		tfProdutoCarrinho.setBounds(140, 53, 86, 20);
+		Carrinho.add(tfProdutoCarrinho);
+		
+		tfValorCarrinho = new JTextField();
+		tfValorCarrinho.setToolTipText("CNPJ");
+		tfValorCarrinho.setHorizontalAlignment(SwingConstants.LEFT);
+		tfValorCarrinho.setForeground(Color.BLACK);
+		tfValorCarrinho.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		tfValorCarrinho.setColumns(10);
+		tfValorCarrinho.setBounds(140, 101, 86, 20);
+		Carrinho.add(tfValorCarrinho);
+		
+		ClientesFisicosController cfCont = new ClientesFisicosController(tfCpf, tfNomeCliente, tfLogradouro, tfNumero, tfComplemento, tfCep, tfCelular, taClientesFisicos);
+		ClientesJuridicosController cjCont = new ClientesJuridicosController(tfCnpj, tfNomeJuri, tfLogradouroJuri, tfNumeroJuri, tfComplementoJuri, tfCepJuri, tfTelefone, tfEmail, taClientesJuri);
 		ProdutosController pCont = new ProdutosController(tfCodigo,tfNomeProduto, tfValorProduto, tfDescricaoProduto, tfQtdProduto, taListaProduto);
 		TiposProdutosController tpCont = new TiposProdutosController(tfCodigoTipo, tfNomeTipo, tfDescricaoTipo, taListaTipos);
-		ClientesFisicosController cfCont = new ClientesFisicosController(tfCpf, tfNomeCliente, tfLogradouro, tfNumero, tfComplemento, tfCep, tfCelular, taClientesFisicos);
+		ComprasController compCont = new ComprasController(tfProdutoCarrinho, tfValorCarrinho, taLista);
 		
 		btnCadastrarProdutos.addActionListener(pCont);
 		btnBuscarProduto.addActionListener(pCont);
@@ -287,6 +489,12 @@ public class Tela extends JFrame {
 		btnCadastrarCliente.addActionListener(cfCont);
 		btnBuscarCliente.addActionListener(cfCont);
 		
+		btnCadastrarClienteJ.addActionListener(cjCont);
+		btnBuscarClienteJ.addActionListener(cjCont);
+		
+		btnAdicionar.addActionListener(compCont);
+		btnExcluir.addActionListener(compCont);
+		btnVisualizarCarrinho.addActionListener(compCont);
 
 		
 	}

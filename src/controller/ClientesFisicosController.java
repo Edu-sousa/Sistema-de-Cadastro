@@ -44,7 +44,7 @@ public class ClientesFisicosController implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String cmd = e.getActionCommand(); // Pega exatamente o nome escrito no botão
+		String cmd = e.getActionCommand(); 
 		if (cmd.equals("Cadastrar")) {
 			try {
 				cadastro();
@@ -66,14 +66,14 @@ public class ClientesFisicosController implements ActionListener {
 	private void cadastro() throws IOException {
 
 		ClientesFisico cliente = new ClientesFisico();
-		cliente.endereço = new Endereço();
+		cliente.endereco = new Endereço();
 
 		cliente.cpf = tfCpf.getText();
 		cliente.nome = tfNomeCliente.getText();
-		cliente.endereço.logradouro = tfLogradouro.getText();
-		cliente.endereço.numeroPorta = tfNumero.getText();
-		cliente.endereço.complemento = tfComplemento.getText();
-		cliente.endereço.cep = tfCep.getText();
+		cliente.endereco.logradouro = tfLogradouro.getText();
+		cliente.endereco.numeroPorta = tfNumero.getText();
+		cliente.endereco.complemento = tfComplemento.getText();
+		cliente.endereco.cep = tfCep.getText();
 		cliente.celular = tfCelular.getText();
 
 		cadastraCliente(cliente.toString());
@@ -106,17 +106,16 @@ public class ClientesFisicosController implements ActionListener {
 
 	private void busca() throws IOException {
 		ClientesFisico cliente = new ClientesFisico();
-		cliente.endereço = new Endereço();
-		
+		cliente.endereco = new Endereço();
+
 		cliente.nome = tfNomeCliente.getText();
 
 		cliente = buscaCliente(cliente);
 
 		if (cliente.nome != null) {
 			taClientesFisicos.setText("CPF - " + cliente.cpf + " / Nome - " + cliente.nome + " / Endereco "
-					+ cliente.endereço.logradouro + " / N° - " + cliente.endereço.numeroPorta + " / Complemento - "
-					+ cliente.endereço.complemento + " / CEP - " + cliente.endereço.cep + " / Celular - "
-					+ cliente.celular);
+					+ cliente.endereco.logradouro + " / N° - " + cliente.endereco.numeroPorta + " / Complemento - " + cliente.endereco.complemento
+					+ " / CEP - " + cliente.endereco.cep + " / Celular - " + cliente.celular);
 		}
 		limpaLinhas();
 	}
@@ -136,10 +135,10 @@ public class ClientesFisicosController implements ActionListener {
 				if (vetLinha[1].equals(cliente.nome)) {
 					cliente.cpf = vetLinha[0];
 					cliente.nome = vetLinha[1];
-					cliente.endereço.logradouro = vetLinha[2];
-					cliente.endereço.numeroPorta = vetLinha[3];
-					cliente.endereço.complemento = vetLinha[4];
-					cliente.endereço.cep = vetLinha[5];
+					cliente.endereco.logradouro = vetLinha[2];
+					cliente.endereco.numeroPorta = vetLinha[3];
+					cliente.endereco.complemento = vetLinha[4];
+					cliente.endereco.cep = vetLinha[5];
 					cliente.celular = vetLinha[6];
 					break;
 				}

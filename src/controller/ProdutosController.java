@@ -59,7 +59,7 @@ public class ProdutosController implements ActionListener {
 
 		Produto produto = new Produto();
 		produto.tipoProduto = new TipoProduto();
-		
+
 		produto.tipoProduto.codIdentificador = Integer.parseInt(tfCodigo.getText());
 		produto.nome = tfNomeProduto.getText(); // pega o conteudo
 		produto.valor = Integer.parseInt(tfValorProduto.getText());
@@ -68,11 +68,7 @@ public class ProdutosController implements ActionListener {
 
 		System.out.println(produto);
 		cadastraProduto(produto.toString());
-		tfCodigo.setText("");
-		tfNomeProduto.setText("");
-		tfValorProduto.setText("");
-		tfDescricaoProduto.setText("");
-		tfQtdProduto.setText("");
+		limpaTexto();
 	}
 
 	private void cadastraProduto(String csvProduto) throws IOException {
@@ -100,26 +96,27 @@ public class ProdutosController implements ActionListener {
 
 	private void busca() throws IOException {
 		Produto produto = new Produto();
-		produto.nome = tfNomeProduto.getText();		
+		produto.nome = tfNomeProduto.getText();
 		produto.tipoProduto = new TipoProduto();
-
-//		System.out.println(produto);
-		produto = buscaProduto(produto);
 		
-		if (produto.descricao != null  ) {
-			taListaProduto.setText("Codigo: "+produto.tipoProduto.codIdentificador+" - Nome: " + produto.nome + " - Valor: "+produto.valor +" - Descrição: " + produto.descricao + " - Qtd Estoque: "+ produto.qtdEstoque);
+//		if(!tfCodigo.getText().equals("")) {
+//			produto.tipoProduto.codIdentificador = Integer.parseInt(tfCodigo.getText());
+//		}
+
+		produto = buscaProduto(produto);
+
+		if (produto.descricao != null) {
+			taListaProduto.setText("Codigo: " + produto.tipoProduto.codIdentificador + " - Nome: " + produto.nome
+					+ " - Valor: " + produto.valor + " - Descrição: " + produto.descricao + " - Qtd Estoque: "
+					+ produto.qtdEstoque);
 		} else {
 			taListaProduto.setText("Produto não encontrado");
 		}
-		tfCodigo.setText("");
-		tfNomeProduto.setText("");
-		tfValorProduto.setText("");
-		tfDescricaoProduto.setText("");
-		tfQtdProduto.setText("");
+		limpaTexto();
 	}
 
-	private Produto buscaProduto(Produto produto) throws IOException {
-
+	public Produto buscaProduto(Produto produto) throws IOException {
+		
 		String path = System.getProperty("user.home") + File.separator + "Sistema Cadastro";
 		File arq = new File(path, "produto.csv");
 
@@ -127,17 +124,16 @@ public class ProdutosController implements ActionListener {
 			FileInputStream fis = new FileInputStream(arq);
 			InputStreamReader isr = new InputStreamReader(fis);
 			BufferedReader buffer = new BufferedReader(isr);
-			
+
 			String linha = buffer.readLine();
 			while (linha != null) {
 				String[] vetLinha = linha.split(";");
-				if (vetLinha[1].equals(produto.nome)) {
+				if (vetLinha[1].equals(produto.nome) || Integer.parseInt(vetLinha[0]) == produto.tipoProduto.codIdentificador) {
 					produto.tipoProduto.codIdentificador = Integer.parseInt(vetLinha[0]);
 					produto.nome = vetLinha[1];
 					produto.valor = Float.parseFloat(vetLinha[2]);
 					produto.descricao = vetLinha[3];
 					produto.qtdEstoque = Integer.parseInt(vetLinha[4]);
-					
 					break;
 				}
 				linha = buffer.readLine();
@@ -146,6 +142,17 @@ public class ProdutosController implements ActionListener {
 			isr.close();
 			fis.close();
 		}
+		if (produto.qtdEstoque <= 0) {
+			produto = null;
+		}
 		return produto;
+	}
+
+	public void limpaTexto() {
+//		tfCodigo.setText("");
+		tfNomeProduto.setText("");
+		tfValorProduto.setText("");
+		tfDescricaoProduto.setText("");
+		tfQtdProduto.setText("");
 	}
 }
