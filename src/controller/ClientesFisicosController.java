@@ -45,22 +45,33 @@ public class ClientesFisicosController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand(); 
-		if (cmd.equals("Cadastrar")) {
-			try {
+			
+		try {
+			if (cmd.equals("Cadastrar")) {
 				cadastro();
-			} catch (IOException e1) {
-				e1.printStackTrace();
 			}
-		}
-		if (cmd.equals("Buscar")) {
-			try {
+			if (cmd.equals("Buscar")) {
 				busca();
-			} catch (FileNotFoundException e1) {
-				e1.printStackTrace();
-			} catch (IOException e1) {
-				e1.printStackTrace();
 			}
-		}
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}		
+//		if (cmd.equals("Cadastrar")) {
+//			try {
+//				cadastro();
+//			} catch (IOException e1) {
+//				e1.printStackTrace();
+//			}
+//		}
+//		if (cmd.equals("Buscar")) {
+//			try {
+//				busca();
+//			} catch (FileNotFoundException e1) {
+//				e1.printStackTrace();
+//			} catch (IOException e1) {
+//				e1.printStackTrace();
+//			}
+//		}
 	}
 
 	private void cadastro() throws IOException {

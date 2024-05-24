@@ -38,21 +38,18 @@ public class TiposProdutosController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
-		if (cmd.equals("Cadastrar")) {
-			try {
+
+		try {
+			if (cmd.equals("Cadastrar")) {
 				cadastro();
-			} catch (IOException e1) {
-				e1.printStackTrace();
 			}
-		}
-		if (cmd.equals("Buscar")) {
-			try {
+			if (cmd.equals("Buscar")) {
 				busca();
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			} catch (Exception e1) {
-				e1.printStackTrace();
 			}
+		} catch (IOException e1){
+			e1.printStackTrace();
+		} catch (Exception e1) {
+			e1.printStackTrace();
 		}
 	}
 
@@ -125,8 +122,8 @@ public class TiposProdutosController implements ActionListener {
 		if (tamanhoLista > 0) {
 			for (int i = 0; i < tamanhoLista; i++) {
 				TipoProduto tp = (TipoProduto) tipos.get(i);
-				buffer.append("Codigo: " + tp.codIdentificador + " - Nome :" + tp.nome + " - Descrição: " + tp.descricao
-						+ "\r\n");
+				buffer.append("Codigo: " + tp.codIdentificador + " - Nome : " + tp.nome + " - Descrição: "
+						+ tp.descricao + "\r\n");
 			}
 			taListaTipos.setText(buffer.toString());
 		}
@@ -227,7 +224,7 @@ public class TiposProdutosController implements ActionListener {
 		}
 		return listaTipos;
 	}
-	
+
 	public void limpaTexto() {
 		tfCodigoTipo.setText("");
 		tfNomeTipo.setText("");

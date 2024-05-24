@@ -46,19 +46,15 @@ public class ClientesJuridicosController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand();
-		if (cmd.equals("Cadastrar")) {
-			try {
+		try {
+			if (cmd.equals("Cadastrar")) {
 				cadastro();
-			} catch (IOException e1) {
-				e1.printStackTrace();
 			}
-		}
-		if (cmd.equals("Buscar")) {
-			try {
+			if (cmd.equals("Buscar")) {
 				busca();
-			} catch (IOException e1) {
-				e1.printStackTrace();
 			}
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
 	}
 

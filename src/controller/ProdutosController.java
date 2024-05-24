@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import fateczl.listaSetGenerica.model.ListaSetGenerica;
 import model.Produto;
 import model.TipoProduto;
 
@@ -39,19 +40,15 @@ public class ProdutosController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String cmd = e.getActionCommand(); // Pega exatamente o nome escrito no botão
-		if (cmd.equals("Cadastrar")) {
-			try {
+		try {
+			if (cmd.equals("Cadastrar")) {
 				cadastro();
-			} catch (IOException e1) {
-				e1.printStackTrace();
 			}
-		}
-		if (cmd.equals("Buscar")) {
-			try {
+			if (cmd.equals("Buscar")) {
 				busca();
-			} catch (IOException e1) {
-				e1.printStackTrace();
 			}
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
 	}
 
@@ -74,7 +71,6 @@ public class ProdutosController implements ActionListener {
 	private void cadastraProduto(String csvProduto) throws IOException {
 		String path = System.getProperty("user.home") + File.separator + "Sistema Cadastro"; // pega o diretorio do
 																								// usuario
-
 		File dir = new File(path);
 		if (!dir.exists()) {
 			dir.mkdir(); // cria diretorio
@@ -91,17 +87,12 @@ public class ProdutosController implements ActionListener {
 		pw.flush();
 		pw.close();
 		fw.close();
-
 	}
 
 	private void busca() throws IOException {
 		Produto produto = new Produto();
 		produto.nome = tfNomeProduto.getText();
 		produto.tipoProduto = new TipoProduto();
-		
-//		if(!tfCodigo.getText().equals("")) {
-//			produto.tipoProduto.codIdentificador = Integer.parseInt(tfCodigo.getText());
-//		}
 
 		produto = buscaProduto(produto);
 
@@ -116,7 +107,7 @@ public class ProdutosController implements ActionListener {
 	}
 
 	public Produto buscaProduto(Produto produto) throws IOException {
-		
+
 		String path = System.getProperty("user.home") + File.separator + "Sistema Cadastro";
 		File arq = new File(path, "produto.csv");
 
@@ -128,7 +119,8 @@ public class ProdutosController implements ActionListener {
 			String linha = buffer.readLine();
 			while (linha != null) {
 				String[] vetLinha = linha.split(";");
-				if (vetLinha[1].equals(produto.nome) || Integer.parseInt(vetLinha[0]) == produto.tipoProduto.codIdentificador) {
+				if (vetLinha[1].equals(produto.nome)
+						|| Integer.parseInt(vetLinha[0]) == produto.tipoProduto.codIdentificador) {
 					produto.tipoProduto.codIdentificador = Integer.parseInt(vetLinha[0]);
 					produto.nome = vetLinha[1];
 					produto.valor = Float.parseFloat(vetLinha[2]);
@@ -148,8 +140,43 @@ public class ProdutosController implements ActionListener {
 		return produto;
 	}
 
+	public int devolvePosicao(Produto produto) throws IOException {
+
+		boolean existe = false;
+		ListaSetGenerica lista = new ListaSetGenerica();
+		int posicao = 0;
+
+		String path = System.getProperty("user.home") + File.separator + "Sistema Cadastro";
+		File arq = new File(path, "produto.csv");
+
+		if (arq.exists() && arq.isFile()) {
+			FileInputStream fis = new FileInputStream(arq);
+			InputStreamReader isr = new InputStreamReader(fis);
+			BufferedReader buffer = new BufferedReader(isr);
+
+			String linha = buffer.readLine();
+			while (linha != null) {
+				String[] vetLinha = linha.split(";");
+				if (vetLinha[1].equals(produto.nome)
+						|| Integer.parseInt(vetLinha[0]) == produto.tipoProduto.codIdentificador) {
+					existe = true;
+					break;
+				}
+				posicao++;
+				linha = buffer.readLine();
+			}
+			buffer.close();
+			isr.close();
+			fis.close();
+		}
+		if (existe == false) {
+			posicao = -1;
+		}
+		return posicao;
+	}
+
 	public void limpaTexto() {
-//		tfCodigo.setText("");
+		tfCodigo.setText("");
 		tfNomeProduto.setText("");
 		tfValorProduto.setText("");
 		tfDescricaoProduto.setText("");
