@@ -83,7 +83,7 @@ public class ClientesJuridicosController implements ActionListener {
 		if (!dir.exists()) {
 			dir.mkdir();
 		}
-		File arq = new File(path, "clienteJ.csv");
+		File arq = new File(path, "clientes.csv");
 
 		boolean existe = false;
 		if (arq.exists()) {
@@ -117,7 +117,7 @@ public class ClientesJuridicosController implements ActionListener {
 
 	private ClienteJuridico buscaCliente(ClienteJuridico empresa) throws IOException {
 		String path = System.getProperty("user.home") + File.separator + "Sistema Cadastro";
-		File arq = new File(path, "clienteJ.csv");
+		File arq = new File(path, "clientes.csv");
 
 		if (arq.exists() && arq.isFile()) {
 			FileInputStream fis = new FileInputStream(arq);

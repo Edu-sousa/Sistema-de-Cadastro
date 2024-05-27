@@ -56,22 +56,6 @@ public class ClientesFisicosController implements ActionListener {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}		
-//		if (cmd.equals("Cadastrar")) {
-//			try {
-//				cadastro();
-//			} catch (IOException e1) {
-//				e1.printStackTrace();
-//			}
-//		}
-//		if (cmd.equals("Buscar")) {
-//			try {
-//				busca();
-//			} catch (FileNotFoundException e1) {
-//				e1.printStackTrace();
-//			} catch (IOException e1) {
-//				e1.printStackTrace();
-//			}
-//		}
 	}
 
 	private void cadastro() throws IOException {
@@ -99,7 +83,7 @@ public class ClientesFisicosController implements ActionListener {
 		if (!dir.exists()) {
 			dir.mkdir();
 		}
-		File arq = new File(path, "cliente.csv");
+		File arq = new File(path, "clientes.csv");
 
 		boolean existe = false;
 		if (arq.exists()) {
@@ -133,7 +117,7 @@ public class ClientesFisicosController implements ActionListener {
 
 	private ClientesFisico buscaCliente(ClientesFisico cliente) throws IOException {
 		String path = System.getProperty("user.home") + File.separator + "Sistema Cadastro";
-		File arq = new File(path, "cliente.csv");
+		File arq = new File(path, "clientes.csv");
 
 		if (arq.exists() && arq.isFile()) {
 			FileInputStream fis = new FileInputStream(arq);

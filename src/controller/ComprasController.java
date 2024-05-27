@@ -9,6 +9,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Stack;
 
 import javax.swing.JTextArea;
@@ -19,7 +22,7 @@ import fateczl.listaSetGenerica.model.ListaSetGenerica;
 import model.Produto;
 import model.TipoProduto;
 
-public class ComprasController implements ActionListener {
+public class ComprasController<E> implements ActionListener {
 
 	private JTextField tfProdutoCarrinho;
 	private JTextField tfQtd;
@@ -81,9 +84,10 @@ public class ComprasController implements ActionListener {
 
 		for (int i = tamanho - 1; i >= 0; i--) {
 			Produto produto = (Produto) pilha.get(i); // instancia cada elemento da pilha em um produto
-//			buffer.append(produto.toString() + "\r\n"); // adiciona cada produto no buffer
 			buffer.append("Codigo: " + produto.tipoProduto.codIdentificador + " - Nome: " + produto.nome
-					+ " - Quantidade: " + produto.qtdEstoque + " - Valor: " + produto.valor + "\r\n");
+					+ " - Quantidade: " + produto.qtdEstoque + " - Valor: " + produto.valor + "\r\n"); // adiciona cada
+																										// produto no
+																										// buffer
 			pilha.pop();
 		}
 		taLista.setText(buffer.toString()); // seta o valor do text area com o buffer
@@ -110,10 +114,10 @@ public class ComprasController implements ActionListener {
 			} else {
 				lista.addLast(produto);
 			}
-
 		} else {
 			taLista.setText("Produto não disponivel");
 		}
+		limpaTexto();
 	}
 
 	public void excluir() throws Exception {
@@ -132,33 +136,75 @@ public class ComprasController implements ActionListener {
 	}
 
 	private void checkout() throws Exception {
+		boolean existe = pesquisarCliente();
 
 		if (tfClienteCompra.getText().equals("")) { // se o compra cliente estiver vazio, a compra não é finalizada
 			taLista.setText("Preencha o campo Cliente com um nome valido ");
+		} else if (existe == false) {
+			taLista.setText("Cliente não cadastrado no banco de dados");
+		} else if (lista.isEmpty()) {
+			taLista.setText("Carrinho de compras esta vazio");
 		} else {
-			StringBuffer buffer = new StringBuffer();
+			StringBuffer buffer = new StringBuffer(); // buffer para aparecer os produtos comprados no taLista
 			String compra = tfClienteCompra.getText(); // String que ira armazenar todas as informações da compra
 
 			for (int i = 0; i < lista.size(); i++) {
 				Produto prod = (Produto) lista.get(i);
 				tfValorCarrinho.setText(Float.toString(valorTotal += prod.valor)); // Calcula valor final da compra
+
+				compra += ";" + prod.nome + ";" + prod.qtdEstoque + ";" + prod.valor; // pegando nome, quantidade e
+																						// valor
 				buffer.append(prod.toString() + "\r\n");
 			}
-			compra += ";" + "de sousa silva";
-			cadastraCompra(compra); // String com as informações = nome do cliente + nome dos produto + quantidade +
+			compra += ";" + tfValorCarrinho.getText();// acrescentando o valor final na String compra
+			cadastraCompra(compra); // String com as informações = nome do cliente + nome dos produto + quantidade
 									// valor total
 			taLista.setText(buffer.toString());
+			zerandoCarrinho(lista);// metodo para zerar o carrinho e os texts filds
 		}
 	}
 
+	private void zerandoCarrinho(ListaSetGenerica lista) throws Exception {
+		tfClienteCompra.setText("");
+		limpaTexto();
+		int tamanho = lista.size();
+		for (int i = 0; i < tamanho; i++) {
+			lista.removeFirst();
+		}
+	}
+
+	private boolean pesquisarCliente() throws InterruptedException, IOException {
+		String path = System.getProperty("user.home") + File.separator + "Sistema Cadastro";
+		File arq = new File(path, "clientes.csv");
+
+		if (arq.exists() && arq.isFile()) {
+			FileInputStream fis = new FileInputStream(arq);
+			InputStreamReader isr = new InputStreamReader(fis);
+			BufferedReader buffer = new BufferedReader(isr);
+
+			String linha = buffer.readLine();
+			while (linha != null) {
+				String[] vetLinha = linha.split(";");
+				if (vetLinha[1].equals(tfClienteCompra.getText())) {// comparando o nome passado com nomes no arquivo
+																	// clientes
+					return true;
+				}
+				linha = buffer.readLine();
+			}
+			buffer.close();
+			isr.close();
+			fis.close();
+		}
+		return false;
+	}
+
 	public void cadastraCompra(String csvCompra) throws IOException {
-		String path = System.getProperty("user.home") + File.separator + "Sistema Cadastro"; // pega o diretorio do
-		// usuario
+		String path = System.getProperty("user.home") + File.separator + "Sistema Cadastro";
 		File dir = new File(path);
 		if (!dir.exists()) {
-			dir.mkdir(); // cria diretorio
+			dir.mkdir();
 		}
-		File arq = new File(path, "compras.csv"); // cria arquivo
+		File arq = new File(path, "compras.csv");
 
 		boolean existe = false;
 		if (arq.exists()) {
@@ -179,17 +225,6 @@ public class ComprasController implements ActionListener {
 
 	public void limpaTexto() {
 		tfProdutoCarrinho.setText("");
+		tfQtd.setText("");
 	}
 }
-
-//int posicao = p.devolvePosicao(produto); // devolve posição do produto
-//if(posicao >= 0 ) {
-//	lista.remove(posicao); // remove elemento com base na posição
-//}else {
-//	taLista.setText("Produto não encontrado");
-//}
-
-//int tamanho = lista.size();
-//for (int i = 0; i < tamanho; i++) {
-//	System.out.println("Produto " + i + " " + lista.get(i) + "\n");
-//}

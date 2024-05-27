@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import controller.ClientesFisicosController;
 import controller.ClientesJuridicosController;
 import controller.ComprasController;
+import controller.PesquisaComprasController;
 import controller.ProdutosController;
 import controller.TiposProdutosController;
 
@@ -59,6 +60,7 @@ public class Tela extends JFrame {
 	private JTextField tfValorCarrinho;
 	private JTextField tfClienteCompra;
 	private JTextField tfQtd;
+	private JTextField tfConsultaNome;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -232,11 +234,13 @@ public class Tela extends JFrame {
 		Pessoas.add(lblCelular);
 		
 		tfCpf = new JTextField();
+		tfCpf.setToolTipText("CPF");
 		tfCpf.setColumns(10);
 		tfCpf.setBounds(156, 23, 86, 20);
 		Pessoas.add(tfCpf);
 		
 		tfNomeCliente = new JTextField();
+		tfNomeCliente.setToolTipText("Nome");
 		tfNomeCliente.setColumns(10);
 		tfNomeCliente.setBounds(156, 48, 86, 20);
 		Pessoas.add(tfNomeCliente);
@@ -251,6 +255,7 @@ public class Tela extends JFrame {
 		Pessoas.add(tfLogradouro);
 		
 		tfCelular = new JTextField();
+		tfCelular.setToolTipText("Celular");
 		tfCelular.setColumns(10);
 		tfCelular.setBounds(156, 189, 86, 20);
 		Pessoas.add(tfCelular);
@@ -316,67 +321,63 @@ public class Tela extends JFrame {
 		
 		JLabel lblCnpj = new JLabel("CNPJ");
 		lblCnpj.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblCnpj.setBounds(62, 11, 46, 14);
+		lblCnpj.setBounds(62, 37, 46, 14);
 		Empresas.add(lblCnpj);
 		
 		JLabel lblNomeJuri = new JLabel("Nome");
 		lblNomeJuri.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNomeJuri.setBounds(62, 36, 46, 14);
+		lblNomeJuri.setBounds(62, 65, 46, 14);
 		Empresas.add(lblNomeJuri);
 		
 		JLabel lblTelefone = new JLabel("Telefone");
 		lblTelefone.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblTelefone.setBounds(58, 170, 62, 14);
+		lblTelefone.setBounds(264, 158, 55, 14);
 		Empresas.add(lblTelefone);
 		
 		JLabel lblEmail = new JLabel("E-mail");
 		lblEmail.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblEmail.setBounds(62, 195, 62, 14);
+		lblEmail.setBounds(264, 191, 62, 14);
 		Empresas.add(lblEmail);
 		
 		JLabel lblEnderecoJuri = new JLabel("Endere\u00E7o");
 		lblEnderecoJuri.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblEnderecoJuri.setBounds(62, 61, 78, 14);
+		lblEnderecoJuri.setBounds(62, 96, 78, 14);
 		Empresas.add(lblEnderecoJuri);
 		
 		tfLogradouroJuri = new JTextField();
 		tfLogradouroJuri.setToolTipText("Logradouro");
-		tfLogradouroJuri.setText("Logradouro");
 		tfLogradouroJuri.setHorizontalAlignment(SwingConstants.LEFT);
-		tfLogradouroJuri.setForeground(Color.LIGHT_GRAY);
+		tfLogradouroJuri.setForeground(new Color(0, 0, 0));
 		tfLogradouroJuri.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		tfLogradouroJuri.setColumns(10);
-		tfLogradouroJuri.setBounds(156, 59, 86, 20);
+		tfLogradouroJuri.setBounds(156, 94, 86, 20);
 		Empresas.add(tfLogradouroJuri);
 		
 		tfNumeroJuri = new JTextField();
 		tfNumeroJuri.setToolTipText("Numero ");
-		tfNumeroJuri.setText("Numero ");
 		tfNumeroJuri.setHorizontalAlignment(SwingConstants.LEFT);
-		tfNumeroJuri.setForeground(Color.LIGHT_GRAY);
+		tfNumeroJuri.setForeground(new Color(0, 0, 0));
 		tfNumeroJuri.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		tfNumeroJuri.setColumns(10);
-		tfNumeroJuri.setBounds(156, 90, 86, 20);
+		tfNumeroJuri.setBounds(157, 156, 86, 20);
 		Empresas.add(tfNumeroJuri);
 		
 		tfComplementoJuri = new JTextField();
 		tfComplementoJuri.setToolTipText("Complemento");
-		tfComplementoJuri.setText("Complemento");
 		tfComplementoJuri.setHorizontalAlignment(SwingConstants.LEFT);
-		tfComplementoJuri.setForeground(Color.LIGHT_GRAY);
+		tfComplementoJuri.setForeground(new Color(0, 0, 0));
 		tfComplementoJuri.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		tfComplementoJuri.setColumns(10);
-		tfComplementoJuri.setBounds(156, 119, 86, 20);
+		tfComplementoJuri.setBounds(156, 125, 86, 20);
 		Empresas.add(tfComplementoJuri);
 		
 		tfCepJuri = new JTextField();
 		tfCepJuri.setToolTipText("CEP");
-		tfCepJuri.setText("CEP");
 		tfCepJuri.setHorizontalAlignment(SwingConstants.LEFT);
-		tfCepJuri.setForeground(Color.LIGHT_GRAY);
+		tfCepJuri.setForeground(new Color(0, 0, 0));
 		tfCepJuri.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		tfCepJuri.setColumns(10);
-		tfCepJuri.setBounds(156, 150, 86, 20);
+		tfCepJuri.setBounds(157, 187, 86, 20);
 		Empresas.add(tfCepJuri);
 		
 		JButton btnCadastrarClienteJ = new JButton("Cadastrar");
@@ -393,7 +394,7 @@ public class Tela extends JFrame {
 		tfCnpj.setForeground(new Color(0, 0, 0));
 		tfCnpj.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		tfCnpj.setColumns(10);
-		tfCnpj.setBounds(156, 10, 86, 20);
+		tfCnpj.setBounds(156, 31, 86, 20);
 		Empresas.add(tfCnpj);
 		
 		tfNomeJuri = new JTextField();
@@ -402,7 +403,7 @@ public class Tela extends JFrame {
 		tfNomeJuri.setForeground(new Color(0, 0, 0));
 		tfNomeJuri.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		tfNomeJuri.setColumns(10);
-		tfNomeJuri.setBounds(156, 35, 86, 20);
+		tfNomeJuri.setBounds(156, 63, 86, 20);
 		Empresas.add(tfNomeJuri);
 		
 		tfTelefone = new JTextField();
@@ -411,7 +412,7 @@ public class Tela extends JFrame {
 		tfTelefone.setForeground(new Color(0, 0, 0));
 		tfTelefone.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		tfTelefone.setColumns(10);
-		tfTelefone.setBounds(156, 168, 86, 20);
+		tfTelefone.setBounds(321, 156, 86, 20);
 		Empresas.add(tfTelefone);
 		
 		tfEmail = new JTextField();
@@ -420,7 +421,7 @@ public class Tela extends JFrame {
 		tfEmail.setForeground(new Color(0, 0, 0));
 		tfEmail.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		tfEmail.setColumns(10);
-		tfEmail.setBounds(156, 194, 86, 20);
+		tfEmail.setBounds(321, 189, 86, 20);
 		Empresas.add(tfEmail);
 		
 		JPanel Carrinho = new JPanel();
@@ -454,7 +455,7 @@ public class Tela extends JFrame {
 		
 		JLabel lblProdutoCarrinho = new JLabel("Produto");
 		lblProdutoCarrinho.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblProdutoCarrinho.setBounds(49, 77, 68, 14);
+		lblProdutoCarrinho.setBounds(49, 73, 68, 14);
 		Carrinho.add(lblProdutoCarrinho);
 		
 		JLabel lblValorCarrinho = new JLabel("Valor Total");
@@ -468,7 +469,7 @@ public class Tela extends JFrame {
 		tfProdutoCarrinho.setForeground(Color.BLACK);
 		tfProdutoCarrinho.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		tfProdutoCarrinho.setColumns(10);
-		tfProdutoCarrinho.setBounds(140, 76, 86, 20);
+		tfProdutoCarrinho.setBounds(140, 72, 86, 20);
 		Carrinho.add(tfProdutoCarrinho);
 		
 		tfValorCarrinho = new JTextField();
@@ -521,21 +522,32 @@ public class Tela extends JFrame {
 		Carrinho.add(tfClienteCompra);
 		
 		JPanel ConsultarCompra = new JPanel();
+		ConsultarCompra.setToolTipText("");
 		tabbedPane.addTab("Consultar", null, ConsultarCompra, null);
 		ConsultarCompra.setLayout(null);
 		
 		JTextArea taConsultaCompra = new JTextArea();
-		taConsultaCompra.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		taConsultaCompra.setBounds(0, 224, 595, 167);
+		taConsultaCompra.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		ConsultarCompra.add(taConsultaCompra);
 		
-		JComboBox comboBox_1_1 = new JComboBox();
-		comboBox_1_1.setToolTipText("Lista de Tipos");
-		comboBox_1_1.setBounds(276, 45, 104, 22);
-		Carrinho.add(comboBox_1_1);
+		tfConsultaNome = new JTextField();
+		tfConsultaNome.setToolTipText("DIgite o nome de um cliente para consultar o historico de compras");
+		tfConsultaNome.setHorizontalAlignment(SwingConstants.LEFT);
+		tfConsultaNome.setForeground(Color.BLACK);
+		tfConsultaNome.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		tfConsultaNome.setColumns(10);
+		tfConsultaNome.setBounds(162, 81, 149, 20);
+		ConsultarCompra.add(tfConsultaNome);
 		
-		comboBox_1_1.addItem("Pessoa");
-		comboBox_1_1.addItem("Empresa");
+		JLabel lblNome = new JLabel("Nome");
+		lblNome.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNome.setBounds(99, 83, 68, 14);
+		ConsultarCompra.add(lblNome);
+		
+		JButton btnPesquisar = new JButton("Pesquisar");
+		btnPesquisar.setBounds(341, 81, 99, 23);
+		ConsultarCompra.add(btnPesquisar);
 		
 		JLabel lblQuantidade = new JLabel("Quantidade");
 		lblQuantidade.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -543,7 +555,7 @@ public class Tela extends JFrame {
 		Carrinho.add(lblQuantidade);
 		
 		tfQtd = new JTextField();
-		tfQtd.setToolTipText("Insira o nome de um produto");
+		tfQtd.setToolTipText("Insira a quantidade");
 		tfQtd.setHorizontalAlignment(SwingConstants.LEFT);
 		tfQtd.setForeground(Color.BLACK);
 		tfQtd.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -552,10 +564,41 @@ public class Tela extends JFrame {
 		Carrinho.add(tfQtd);
 		
 		ClientesFisicosController cfCont = new ClientesFisicosController(tfCpf, tfNomeCliente, tfLogradouro, tfNumero, tfComplemento, tfCep, tfCelular, taClientesFisicos);
+		
+		JLabel lblNumero = new JLabel("Numero");
+		lblNumero.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNumero.setBounds(62, 103, 78, 14);
+		Pessoas.add(lblNumero);
+		
+		JLabel lblComplemento = new JLabel("Complemento");
+		lblComplemento.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblComplemento.setBounds(62, 134, 92, 16);
+		Pessoas.add(lblComplemento);
+		
+		JLabel lblCep = new JLabel("CEP");
+		lblCep.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblCep.setBounds(62, 162, 78, 14);
+		Pessoas.add(lblCep);
 		ClientesJuridicosController cjCont = new ClientesJuridicosController(tfCnpj, tfNomeJuri, tfLogradouroJuri, tfNumeroJuri, tfComplementoJuri, tfCepJuri, tfTelefone, tfEmail, taClientesJuri);
+		
+		JLabel lblNumero_1 = new JLabel("Numero");
+		lblNumero_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNumero_1.setBounds(62, 156, 50, 14);
+		Empresas.add(lblNumero_1);
+		
+		JLabel lblComplemento_1 = new JLabel("Complemento");
+		lblComplemento_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblComplemento_1.setBounds(62, 126, 92, 16);
+		Empresas.add(lblComplemento_1);
+		
+		JLabel lblCep_1 = new JLabel("CEP");
+		lblCep_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblCep_1.setBounds(62, 191, 35, 14);
+		Empresas.add(lblCep_1);
 		ProdutosController pCont = new ProdutosController(tfCodigo,tfNomeProduto, tfValorProduto, tfDescricaoProduto, tfQtdProduto, taListaProduto);
 		TiposProdutosController tpCont = new TiposProdutosController(tfCodigoTipo, tfNomeTipo, tfDescricaoTipo, taListaTipos);
 		ComprasController compCont = new ComprasController(tfProdutoCarrinho, tfQtd, tfValorCarrinho, tfClienteCompra,taLista);
+		PesquisaComprasController psCont = new PesquisaComprasController(tfConsultaNome, taConsultaCompra);
 		
 		btnCadastrarProdutos.addActionListener(pCont);
 		btnBuscarProduto.addActionListener(pCont);
@@ -573,6 +616,8 @@ public class Tela extends JFrame {
 		btnExcluir.addActionListener(compCont);
 		btnVisualizarCarrinho.addActionListener(compCont);
 		btnFinalizarCompra.addActionListener(compCont);
+		
+		btnPesquisar.addActionListener(psCont);
 			
 	}
 }
