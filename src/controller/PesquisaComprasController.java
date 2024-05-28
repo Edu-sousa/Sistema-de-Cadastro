@@ -28,6 +28,7 @@ public class PesquisaComprasController implements ActionListener {
 		if (cmd.equals("Pesquisar")) {
 			try {
 				pesquisaCliente();
+				tfConsultaNome.setText("");
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
@@ -58,6 +59,9 @@ public class PesquisaComprasController implements ActionListener {
 			isr.close();
 			fis.close();
 		}
-		taConsultaCompra.setText(br.toString());
+		if(br.toString().equals("")) {
+			taConsultaCompra.setText("Cliente não encontrado");
+		}else
+			taConsultaCompra.setText(br.toString());
 	}
 }

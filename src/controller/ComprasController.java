@@ -13,6 +13,8 @@ import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -30,7 +32,6 @@ public class ComprasController<E> implements ActionListener {
 	private JTextField tfClienteCompra;
 	private JTextArea taLista;
 
-	boolean carrinhoAtivo = true;
 	float valorTotal = 0;
 	Stack<Object> pilha = new Stack<>();
 	ListaSetGenerica lista = new ListaSetGenerica();
@@ -171,6 +172,16 @@ public class ComprasController<E> implements ActionListener {
 		for (int i = 0; i < tamanho; i++) {
 			lista.removeFirst();
 		}
+
+		Timer timer = new Timer();
+		TimerTask zerarLista = new TimerTask() {
+			@Override
+			public void run() {
+				taLista.setText("");
+				tfValorCarrinho.setText("");
+			}
+		};
+		timer.schedule(zerarLista, 5000);
 	}
 
 	private boolean pesquisarCliente() throws InterruptedException, IOException {

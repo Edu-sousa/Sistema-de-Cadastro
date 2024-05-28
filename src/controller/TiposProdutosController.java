@@ -46,7 +46,7 @@ public class TiposProdutosController implements ActionListener {
 			if (cmd.equals("Buscar")) {
 				busca();
 			}
-		} catch (IOException e1){
+		} catch (IOException e1) {
 			e1.printStackTrace();
 		} catch (Exception e1) {
 			e1.printStackTrace();
@@ -55,8 +55,7 @@ public class TiposProdutosController implements ActionListener {
 
 	private void cadastro() throws IOException {
 		TipoProduto tipo = new TipoProduto();
-		// pegando o que esta nos texts filds e passando para as variaveis do objeto
-		// tipo
+		// passando os texts filds para as variaveis do tipoProduto
 		tipo.codIdentificador = Integer.parseInt(tfCodigoTipo.getText());
 		tipo.nome = tfNomeTipo.getText();
 		tipo.descricao = tfDescricaoTipo.getText();
