@@ -115,7 +115,7 @@ public class ComprasController<E> implements ActionListener {
 			} else {
 				lista.addLast(produto);
 			}
-		} else {
+		}else {
 			taLista.setText("Produto não disponivel");
 		}
 		limpaTexto();

@@ -47,25 +47,34 @@ public class ProdutosController implements ActionListener {
 			if (cmd.equals("Buscar")) {
 				busca();
 			}
+			if (cmd.equals("Excluir")) {
+				excluir();
+			}
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 	}
 
 	private void cadastro() throws IOException {
+		// verificando se os campos estão preenchidos
+		if (tfCodigo.getText().isEmpty() || tfNomeProduto.getText().isEmpty() || tfValorProduto.getText().isEmpty()
+				|| tfDescricaoProduto.getText().isEmpty() || tfQtdProduto.getText().isEmpty()) {
+			taListaProduto.setText("Preencha todos os campos para concluir o cadastro");
+		} else {
+			taListaProduto.setText("");
+			Produto produto = new Produto();
+			produto.tipoProduto = new TipoProduto();
 
-		Produto produto = new Produto();
-		produto.tipoProduto = new TipoProduto();
+			produto.tipoProduto.codIdentificador = Integer.parseInt(tfCodigo.getText());
+			produto.nome = tfNomeProduto.getText(); // pega o conteudo
+			produto.valor = Integer.parseInt(tfValorProduto.getText());
+			produto.descricao = tfDescricaoProduto.getText();
+			produto.qtdEstoque = Integer.parseInt(tfQtdProduto.getText());
 
-		produto.tipoProduto.codIdentificador = Integer.parseInt(tfCodigo.getText());
-		produto.nome = tfNomeProduto.getText(); // pega o conteudo
-		produto.valor = Integer.parseInt(tfValorProduto.getText());
-		produto.descricao = tfDescricaoProduto.getText();
-		produto.qtdEstoque = Integer.parseInt(tfQtdProduto.getText());
-
-		System.out.println(produto);
-		cadastraProduto(produto.toString());
-		limpaTexto();
+			cadastraProduto(produto.toString());
+			limpaTexto();
+			taListaProduto.setText("Produto Cadastrado");
+		}
 	}
 
 	private void cadastraProduto(String csvProduto) throws IOException {
@@ -89,6 +98,7 @@ public class ProdutosController implements ActionListener {
 		fw.close();
 	}
 
+//-------------------------------------------------------------------------------------	
 	private void busca() throws IOException {
 		Produto produto = new Produto();
 		produto.nome = tfNomeProduto.getText();
@@ -96,7 +106,7 @@ public class ProdutosController implements ActionListener {
 
 		produto = buscaProduto(produto);
 
-		if (produto.descricao != null) {
+		if (produto != null) {
 			taListaProduto.setText("Codigo: " + produto.tipoProduto.codIdentificador + " - Nome: " + produto.nome
 					+ " - Valor: " + produto.valor + " - Descrição: " + produto.descricao + " - Qtd Estoque: "
 					+ produto.qtdEstoque);
@@ -140,39 +150,56 @@ public class ProdutosController implements ActionListener {
 		return produto;
 	}
 
-	public int devolvePosicao(Produto produto) throws IOException {
-
-		boolean existe = false;
-		ListaSetGenerica lista = new ListaSetGenerica();
-		int posicao = 0;
-
+//-------------------------------------------------------------------------------------	
+	private void excluir() throws IOException {
+		// pegando o caminho do diretorio Sistema Cadastro
 		String path = System.getProperty("user.home") + File.separator + "Sistema Cadastro";
-		File arq = new File(path, "produto.csv");
 
-		if (arq.exists() && arq.isFile()) {
-			FileInputStream fis = new FileInputStream(arq);
-			InputStreamReader isr = new InputStreamReader(fis);
-			BufferedReader buffer = new BufferedReader(isr);
+		// buffer que tera todos os produtos, menos o excluido
+		StringBuffer buffer2 = new StringBuffer();
 
-			String linha = buffer.readLine();
-			while (linha != null) {
-				String[] vetLinha = linha.split(";");
-				if (vetLinha[1].equals(produto.nome)
-						|| Integer.parseInt(vetLinha[0]) == produto.tipoProduto.codIdentificador) {
-					existe = true;
-					break;
+		File dir = new File(path);
+		if (!dir.exists()) {
+			dir.mkdir(); // cria o diretorio se não existir
+		}
+		File arq = new File(path, "produto.csv"); // cria arquivo
+
+		if (tfNomeProduto.getText().isEmpty()) {
+			taListaProduto.setText("Digite o nome de um produto existente para exclui-lo");
+		} else {
+			// começa leitura do arquivo
+			if (arq.exists() && arq.isFile()) {
+				FileInputStream fis = new FileInputStream(arq);
+				InputStreamReader isr = new InputStreamReader(fis);
+				BufferedReader buffer = new BufferedReader(isr);
+				String linha = buffer.readLine();
+				while (linha != null) {
+
+					String[] vetLinha = linha.split(";");
+					// verificando o nome do produto com o arquivo produto
+					if (tfNomeProduto.getText().equals(vetLinha[1])) {
+
+					} else {
+						// adicionando no buffer se não for o produto excluido
+						buffer2.append(linha + "\r\n");
+					}
+					linha = buffer.readLine();
 				}
-				posicao++;
-				linha = buffer.readLine();
+				buffer.close();
+				isr.close();
+				fis.close();
+				// termina leitura do arquivo
 			}
-			buffer.close();
-			isr.close();
-			fis.close();
+			FileWriter fw = new FileWriter(arq);
+			PrintWriter pw = new PrintWriter(fw);
+			pw.write(buffer2.toString());
+			pw.flush();
+			pw.close();
+			fw.close();
+			taListaProduto.setText("Produto Excluido");
+			// termina reescrita do arquivo
+			limpaTexto();
 		}
-		if (existe == false) {
-			posicao = -1;
-		}
-		return posicao;
 	}
 
 	public void limpaTexto() {

@@ -55,7 +55,7 @@ public class EstoqueController implements ActionListener {
 	private void instanciarProcessos() throws Exception {
 		// ler o arquivo tipos, devolver o numero que sera a quantidade de posiçõe do
 		// vetor da tabela de espalhamento
-		int posicoes = numerosDeTipos();
+		int posicoes = numerosDePosicoes();
 
 		this.tabela = new ListaSetGenerica[posicoes + 1]; // definindo o limite de posições da tabela
 
@@ -85,7 +85,8 @@ public class EstoqueController implements ActionListener {
 	private void iniciarEPopularTabela() throws IOException {
 		int tamanho = tabela.length;
 		for (int i = 0; i < tamanho; i++) {
-			tabela[i] = new ListaSetGenerica(); //instanciar as listas
+			tabela[i] = new ListaSetGenerica();
+			// instanciar as listas
 		}
 		// ler o arquivo produtos e popular com base no id
 		String path = System.getProperty("user.home") + File.separator + "Sistema Cadastro";
@@ -93,6 +94,7 @@ public class EstoqueController implements ActionListener {
 
 		Produto produto = new Produto();
 		produto.tipoProduto = new TipoProduto();
+		int posicao = 0;
 
 		if (arq.exists() && arq.isFile()) {
 			FileInputStream fis = new FileInputStream(arq);
@@ -104,8 +106,9 @@ public class EstoqueController implements ActionListener {
 				String[] vetLinha = linha.split(";");
 
 				int idTipo = Integer.parseInt(vetLinha[0]);
-				tabela[idTipo].addFirst(linha); // adicionando o produto na tabela com base na posição do tipo do
-												// produto
+				// adicionando o produto na tabela com base na posição do tipo do produto
+				tabela[idTipo].addFirst(linha);
+
 				linha = buffer.readLine();
 			}
 			buffer.close();
@@ -113,9 +116,10 @@ public class EstoqueController implements ActionListener {
 			fis.close();
 		}
 	}
+	private int numerosDePosicoes() throws IOException {
+		// maiorCodigo sera o numero de posições de vetores da tabela
+		int maiorCodigo = 0;
 
-	private int numerosDeTipos() throws IOException {
-		int i = 0;
 		String path = System.getProperty("user.home") + File.separator + "Sistema Cadastro";
 		File arq = new File(path, "tipos.csv");
 
@@ -127,20 +131,22 @@ public class EstoqueController implements ActionListener {
 			String linha = buffer.readLine();
 			while (linha != null) {
 				String[] vetLinha = linha.split(";");
-				i++;
+				if (Integer.parseInt(vetLinha[0]) > maiorCodigo) {
+					maiorCodigo = Integer.parseInt(vetLinha[0]);
+				}
 				linha = buffer.readLine();
 			}
 			buffer.close();
 			isr.close();
 			fis.close();
 		}
-		return i;
+		return maiorCodigo;
 	}
 
 //--------------------------------------------------------------------------------------------------------
 	private void listarTiposEProdutos() throws Exception {
 
-		int posicoes = numerosDeTipos();
+		int posicoes = numerosDePosicoes();
 		this.tabela = new ListaSetGenerica[posicoes + 1]; // definindo o limite de posições da tabela
 		iniciarEPopularTabela();
 

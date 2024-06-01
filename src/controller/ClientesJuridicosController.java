@@ -53,27 +53,38 @@ public class ClientesJuridicosController implements ActionListener {
 			if (cmd.equals("Buscar")) {
 				busca();
 			}
+			if(cmd.equals("Excluir")) {
+				excluir();
+			}
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 	}
 
 	private void cadastro() throws IOException {
-		ClienteJuridico empresa = new ClienteJuridico();
-		empresa.endereco = new Endereço();
+		if (tfCnpj.getText().isEmpty() || tfNomeJuri.getText().isEmpty() || tfLogradouroJuri.getText().isEmpty()
+				|| tfNumeroJuri.getText().isEmpty() || tfComplementoJuri.getText().isEmpty()
+				|| tfCepJuri.getText().isEmpty() || tfTelefone.getText().isEmpty() || tfEmail.getText().isEmpty()) {
+			taClientesJuri.setText("Preencha todos os campos para conluir o cadastro");
+		} else {
+			taClientesJuri.setText("");
 
-		empresa.cnpj = tfCnpj.getText();
-		empresa.nome = tfNomeJuri.getText();
-		empresa.endereco.logradouro = tfLogradouroJuri.getText();
-		empresa.endereco.numeroPorta = tfNumeroJuri.getText();
-		empresa.endereco.complemento = tfComplementoJuri.getText();
-		empresa.endereco.cep = tfCepJuri.getText();
-		empresa.telefone = tfTelefone.getText();
-		empresa.email = tfEmail.getText();
+			ClienteJuridico empresa = new ClienteJuridico();
+			empresa.endereco = new Endereço();
 
-		cadastraCliente(empresa.toString());
+			empresa.cnpj = tfCnpj.getText();
+			empresa.nome = tfNomeJuri.getText();
+			empresa.endereco.logradouro = tfLogradouroJuri.getText();
+			empresa.endereco.numeroPorta = tfNumeroJuri.getText();
+			empresa.endereco.complemento = tfComplementoJuri.getText();
+			empresa.endereco.cep = tfCepJuri.getText();
+			empresa.telefone = tfTelefone.getText();
+			empresa.email = tfEmail.getText();
 
-		limpaLinhas();
+			cadastraCliente(empresa.toString());
+			limpaLinhas();
+			taClientesJuri.setText("Cliente Cadastrado");
+		}
 	}
 
 	private void cadastraCliente(String csvCliente) throws IOException {
@@ -96,9 +107,9 @@ public class ClientesJuridicosController implements ActionListener {
 		pw.close();
 		fw.close();
 
-		System.out.println("cadastrado com sucesso");
 	}
 
+//-------------------------------------------------------------------------------------	
 	private void busca() throws IOException {
 		ClienteJuridico empresa = new ClienteJuridico();
 		empresa.endereco = new Endereço();
@@ -107,10 +118,13 @@ public class ClientesJuridicosController implements ActionListener {
 
 		empresa = buscaCliente(empresa);
 
-		if (empresa.nome != null) {
+		if (empresa != null) {
 			taClientesJuri.setText("CNPJ - " + empresa.cnpj + " / Nome " + empresa.nome + " / Endereco "
-					+ empresa.endereco.logradouro + " / N° - " + empresa.endereco.numeroPorta + " / Complemento - " + empresa.endereco.complemento
-					+ " / CEP - " + empresa.endereco.cep + " / Telefone - " + empresa.telefone + " / Email - " + empresa.email);
+					+ empresa.endereco.logradouro + " / N° - " + empresa.endereco.numeroPorta + " / Complemento - "
+					+ empresa.endereco.complemento + " / CEP - " + empresa.endereco.cep + " / Telefone - "
+					+ empresa.telefone + " / Email - " + empresa.email);
+		}else {
+			taClientesJuri.setText("Cliente não encontrado");
 		}
 		limpaLinhas();
 	}
@@ -119,6 +133,7 @@ public class ClientesJuridicosController implements ActionListener {
 		String path = System.getProperty("user.home") + File.separator + "Sistema Cadastro";
 		File arq = new File(path, "clientes.csv");
 
+		boolean existe = false; //verifica se o cliente existe
 		if (arq.exists() && arq.isFile()) {
 			FileInputStream fis = new FileInputStream(arq);
 			InputStreamReader isr = new InputStreamReader(fis);
@@ -137,6 +152,7 @@ public class ClientesJuridicosController implements ActionListener {
 					empresa.endereco.cep = vetLinha[5];
 					empresa.telefone = vetLinha[6];
 					empresa.email = vetLinha[7];
+					existe = true;
 					break;
 				}
 				linha = buffer.readLine();
@@ -145,7 +161,61 @@ public class ClientesJuridicosController implements ActionListener {
 			isr.close();
 			fis.close();
 		}
+		if(existe == false) {
+			empresa = null;
+		}
 		return empresa;
+	}
+//-------------------------------------------------------------------------------------	
+	private void excluir() throws IOException {
+		// pegando o caminho do diretorio Sistema Cadastro
+		String path = System.getProperty("user.home") + File.separator + "Sistema Cadastro";
+
+		// buffer que tera todos os produtos, menos o excluido
+		StringBuffer buffer2 = new StringBuffer();
+
+		File dir = new File(path);
+		if (!dir.exists()) {
+			dir.mkdir(); // cria o diretorio se não existir
+		}
+		File arq = new File(path, "clientes.csv"); // cria arquivo
+
+		if (tfNomeJuri.getText().isEmpty()) {
+			taClientesJuri.setText("Digite o nome de um Cliente existente para exclui-lo");
+		} else {
+			// começa leitura do arquivo
+			if (arq.exists() && arq.isFile()) {
+				FileInputStream fis = new FileInputStream(arq);
+				InputStreamReader isr = new InputStreamReader(fis);
+				BufferedReader buffer = new BufferedReader(isr);
+				String linha = buffer.readLine();
+				while (linha != null) {
+
+					String[] vetLinha = linha.split(";");
+					// verificando o nome do produto com o arquivo produto
+					if (tfNomeJuri.getText().equals(vetLinha[1])) {
+
+					} else {
+						// adicionando no buffer se não for o produto excluido
+						buffer2.append(linha + "\r\n");
+					}
+					linha = buffer.readLine();
+				}
+				buffer.close();
+				isr.close();
+				fis.close();
+				// termina leitura do arquivo
+			}
+			FileWriter fw = new FileWriter(arq);
+			PrintWriter pw = new PrintWriter(fw);
+			pw.write(buffer2.toString());
+			pw.flush();
+			pw.close();
+			fw.close();
+			taClientesJuri.setText("Cliente Excluido");
+			// termina reescrita do arquivo
+			limpaLinhas();
+		}
 	}
 
 	public void limpaLinhas() {

@@ -46,6 +46,9 @@ public class TiposProdutosController implements ActionListener {
 			if (cmd.equals("Buscar")) {
 				busca();
 			}
+			if (cmd.equals("Excluir")) {
+				excluir();
+			}
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		} catch (Exception e1) {
@@ -54,17 +57,23 @@ public class TiposProdutosController implements ActionListener {
 	}
 
 	private void cadastro() throws IOException {
-		TipoProduto tipo = new TipoProduto();
-		// passando os texts filds para as variaveis do tipoProduto
-		tipo.codIdentificador = Integer.parseInt(tfCodigoTipo.getText());
-		tipo.nome = tfNomeTipo.getText();
-		tipo.descricao = tfDescricaoTipo.getText();
 
-		System.out.println(tipo);
-		cadastraTipo(tipo.toString()); // chamando o metodo de cadastro com o toString como parametro
+		// verificando se os campos estão preenchidos
+		if (tfCodigoTipo.getText().isEmpty() || tfNomeTipo.getText().isEmpty() || tfDescricaoTipo.getText().isEmpty()) {
+			taListaTipos.setText("Preencha todos os campos para concluir o cadastro");
+		} else {
+			taListaTipos.setText("");
+			TipoProduto tipo = new TipoProduto();
+			// passando os texts filds para as variaveis do tipoProduto
+			tipo.codIdentificador = Integer.parseInt(tfCodigoTipo.getText());
+			tipo.nome = tfNomeTipo.getText();
+			tipo.descricao = tfDescricaoTipo.getText();
 
-		// limpando os campos depois do cadastro
-		limpaTexto();
+			System.out.println(tipo);
+			cadastraTipo(tipo.toString()); // chamando o metodo de cadastro com o toString como parametro
+
+			limpaTexto(); // limpando os campos depois do cadastro
+		}
 	}
 
 	private void cadastraTipo(String csvTipo) throws IOException {
@@ -114,7 +123,7 @@ public class TiposProdutosController implements ActionListener {
 						+ tipo.descricao);
 			}
 		} else {
-			JOptionPane.showMessageDialog(null, "Preencha um campo", "Erro", JOptionPane.ERROR_MESSAGE);
+			taListaTipos.setText("Insira um codigo valido para busca-lo");
 		}
 		int tamanhoLista = tipos.size();
 		StringBuffer buffer = new StringBuffer();
@@ -149,7 +158,6 @@ public class TiposProdutosController implements ActionListener {
 					tipo.descricao = vetLinha[2];
 					break;
 				}
-				System.out.println("Comparando: " + Integer.parseInt(vetLinha[0]) + " com " + tipo.codIdentificador);
 				linha = buffer.readLine();
 			}
 			buffer.close();
@@ -222,6 +230,51 @@ public class TiposProdutosController implements ActionListener {
 			fis.close();
 		}
 		return listaTipos;
+	}
+
+	// toda vez que um tipo é excluido o arquivo é reescrito sem ele
+	private void excluir() throws Exception {
+
+		// pegando o caminho do diretorio Sistema Cadastro
+		String path = System.getProperty("user.home") + File.separator + "Sistema Cadastro";
+
+		ListaSetGenerica lista = listaTipos(); // popula a lista
+		StringBuffer buffer = new StringBuffer();
+
+		File dir = new File(path);
+		if (!dir.exists()) {
+			dir.mkdir(); // cria o diretorio se, não existir
+		}
+		File arq = new File(path, "tipos.csv"); // cria arquivo
+
+		if (tfCodigoTipo.getText().isEmpty()) {
+			taListaTipos.setText("Insira um codigo valido para exclui-lo");
+		} else {
+			int codigo = Integer.parseInt(tfCodigoTipo.getText());
+
+			int tamanho = lista.size();
+
+			if (codigo > tamanho || codigo < 0) {
+				taListaTipos.setText("Este codigo não existe");
+			} else {
+				for (int i = tamanho - 1; i >= 0; i--) { // (int i = 0; i < tamanho; i++)
+					TipoProduto tipo = (TipoProduto) lista.get(i);
+					if (tipo.codIdentificador == codigo) {
+
+					} else {
+						buffer.append(tipo.toString() + "\r\n");
+					}
+				}
+				FileWriter fw = new FileWriter(arq);
+				PrintWriter pw = new PrintWriter(fw);
+				pw.write(buffer.toString());
+				pw.flush();
+				pw.close();
+				fw.close();
+				taListaTipos.setText("Codigo Excluido");
+			}
+			limpaTexto();
+		}
 	}
 
 	public void limpaTexto() {

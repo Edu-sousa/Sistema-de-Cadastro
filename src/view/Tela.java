@@ -111,7 +111,7 @@ public class Tela extends JFrame {
 		Produtos.add(lblDescricaoProduto);
 		
 		JLabel lblQtdEstoque = new JLabel("Quantidade em Estoque");
-		lblQtdEstoque.setBounds(59, 174, 147, 14);
+		lblQtdEstoque.setBounds(59, 174, 147, 19);
 		lblQtdEstoque.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		Produtos.add(lblQtdEstoque);
 		
@@ -140,13 +140,15 @@ public class Tela extends JFrame {
 		Produtos.add(scrollPane);
 		
 		JTextArea taListaProduto = new JTextArea();
+		taListaProduto.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		scrollPane.setViewportView(taListaProduto);
 		
 		JButton btnCadastrarProdutos = new JButton("Cadastrar");
-		btnCadastrarProdutos.setBounds(435, 60, 99, 23);
+		btnCadastrarProdutos.setBounds(435, 45, 99, 23);
 		Produtos.add(btnCadastrarProdutos);
 		
 		JButton btnBuscarProduto = new JButton("Buscar");
+		btnBuscarProduto.setToolTipText("Insira o nome de um produto para busca-lo");
 		btnBuscarProduto.setBounds(435, 146, 99, 23);
 		Produtos.add(btnBuscarProduto);
 		
@@ -196,10 +198,11 @@ public class Tela extends JFrame {
 		TiposDeProdutos.add(tfDescricaoTipo);
 		
 		JButton btnCadastraTipo = new JButton("Cadastrar");
-		btnCadastraTipo.setBounds(435, 60, 99, 23);
+		btnCadastraTipo.setBounds(435, 45, 99, 23);
 		TiposDeProdutos.add(btnCadastraTipo);
 		
 		JButton btnBuscaTipo = new JButton("Buscar");
+		btnBuscaTipo.setToolTipText("Insira o nome de um tipo de produto para busca-lo");
 		btnBuscaTipo.setBounds(435, 146, 99, 23);
 		TiposDeProdutos.add(btnBuscaTipo);
 		
@@ -267,10 +270,11 @@ public class Tela extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnCadastrarCliente.setBounds(435, 60, 99, 23);
+		btnCadastrarCliente.setBounds(435, 45, 99, 23);
 		Pessoas.add(btnCadastrarCliente);
 		
 		JButton btnBuscarCliente = new JButton("Buscar");
+		btnBuscarCliente.setToolTipText("Insira o nome de um cliente para busca-lo");
 		btnBuscarCliente.setBounds(435, 146, 99, 23);
 		Pessoas.add(btnBuscarCliente);
 		
@@ -279,6 +283,7 @@ public class Tela extends JFrame {
 		Pessoas.add(scrollPane_2);
 		
 		JTextArea taClientesFisicos = new JTextArea();
+		taClientesFisicos.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		scrollPane_2.setViewportView(taClientesFisicos);
 	
 		
@@ -318,6 +323,7 @@ public class Tela extends JFrame {
 		Empresas.add(scrollPane_3);
 		
 		JTextArea taClientesJuri = new JTextArea();
+		taClientesJuri.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		scrollPane_3.setViewportView(taClientesJuri);
 
 		
@@ -383,10 +389,11 @@ public class Tela extends JFrame {
 		Empresas.add(tfCepJuri);
 		
 		JButton btnCadastrarClienteJ = new JButton("Cadastrar");
-		btnCadastrarClienteJ.setBounds(435, 60, 99, 23);
+		btnCadastrarClienteJ.setBounds(435, 45, 99, 23);
 		Empresas.add(btnCadastrarClienteJ);
 		
 		JButton btnBuscarClienteJ = new JButton("Buscar");
+		btnBuscarClienteJ.setToolTipText("Insira o nome de um cliente para busca-lo");
 		btnBuscarClienteJ.setBounds(435, 146, 99, 23);
 		Empresas.add(btnBuscarClienteJ);
 		
@@ -440,6 +447,7 @@ public class Tela extends JFrame {
 		scrollPane_4.setViewportView(taLista);
 		
 		JButton btnAdicionar = new JButton("Adicionar");
+		btnAdicionar.setToolTipText("Insira um produto e sua quantidade para adiciona-lo");
 		btnAdicionar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
@@ -547,10 +555,14 @@ public class Tela extends JFrame {
 		tabbedPane.addTab("Consultar", null, ConsultarCompra, null);
 		ConsultarCompra.setLayout(null);
 		
+		JScrollPane scrollPane_6 = new JScrollPane();
+		scrollPane_6.setBounds(0, 224, 595, 167);
+		ConsultarCompra.add(scrollPane_6);
+		
 		JTextArea taConsultaCompra = new JTextArea();
-		taConsultaCompra.setBounds(0, 224, 595, 167);
+		scrollPane_6.setViewportView(taConsultaCompra);
 		taConsultaCompra.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		ConsultarCompra.add(taConsultaCompra);
+		
 		
 		tfConsultaNome = new JTextField();
 		tfConsultaNome.setToolTipText("DIgite o nome de um cliente para consultar o historico de compras");
@@ -617,30 +629,54 @@ public class Tela extends JFrame {
 		lblCep_1.setBounds(62, 191, 35, 14);
 		Empresas.add(lblCep_1);
 		
-		ClientesFisicosController cfCont = new ClientesFisicosController(tfCpf, tfNomeCliente, tfLogradouro, tfNumero, tfComplemento, tfCep, tfCelular, taClientesFisicos);
-		ClientesJuridicosController cjCont = new ClientesJuridicosController(tfCnpj, tfNomeJuri, tfLogradouroJuri, tfNumeroJuri, tfComplementoJuri, tfCepJuri, tfTelefone, tfEmail, taClientesJuri);
-		ProdutosController pCont = new ProdutosController(tfCodigo,tfNomeProduto, tfValorProduto, tfDescricaoProduto, tfQtdProduto, taListaProduto);
-		TiposProdutosController tpCont = new TiposProdutosController(tfCodigoTipo, tfNomeTipo, tfDescricaoTipo, taListaTipos);
-		ComprasController compCont = new ComprasController(tfProdutoCarrinho, tfQtd, tfValorCarrinho, tfClienteCompra,taLista);
-		PesquisaComprasController psCont = new PesquisaComprasController(tfConsultaNome, taConsultaCompra);
+		JButton btnExcluirTipo = new JButton("Excluir");
+		btnExcluirTipo.setToolTipText("Insira um codigo para excluir o tipo");
+		btnExcluirTipo.setBounds(435, 96, 99, 23);
+		TiposDeProdutos.add(btnExcluirTipo);
 		
 		JLabel lblConsultarCompra = new JLabel("Consultar Compras");
 		lblConsultarCompra.setFont(new Font("Tahoma", Font.BOLD, 17));
 		lblConsultarCompra.setBounds(212, 26, 173, 31);
 		ConsultarCompra.add(lblConsultarCompra);
+		
+		JButton btnExcluirPessoa = new JButton("Excluir");
+		btnExcluirPessoa.setToolTipText("Insira o nome de um cliente para exclui-lo");
+		btnExcluirPessoa.setBounds(435, 96, 99, 23);
+		Pessoas.add(btnExcluirPessoa);
+		
+		JButton btnExcluirEmpresa = new JButton("Excluir");
+		btnExcluirEmpresa.setToolTipText("Insira o nome de um cliente para exclui-lo");
+		btnExcluirEmpresa.setBounds(435, 96, 99, 23);
+		Empresas.add(btnExcluirEmpresa);
+		
+		JButton btnExcluirProduto = new JButton("Excluir");
+		btnExcluirProduto.setToolTipText("Insira um nome de um produto para exclui-lo");
+		btnExcluirProduto.setBounds(435, 96, 99, 23);
+		Produtos.add(btnExcluirProduto);
+		
+		ClientesJuridicosController cjCont = new ClientesJuridicosController(tfCnpj, tfNomeJuri, tfLogradouroJuri, tfNumeroJuri, tfComplementoJuri, tfCepJuri, tfTelefone, tfEmail, taClientesJuri);
+		ClientesFisicosController cfCont = new ClientesFisicosController(tfCpf, tfNomeCliente, tfLogradouro, tfNumero, tfComplemento, tfCep, tfCelular, taClientesFisicos);
+		ProdutosController pCont = new ProdutosController(tfCodigo,tfNomeProduto, tfValorProduto, tfDescricaoProduto, tfQtdProduto, taListaProduto);
+		PesquisaComprasController psCont = new PesquisaComprasController(tfConsultaNome, taConsultaCompra);
+		TiposProdutosController tpCont = new TiposProdutosController(tfCodigoTipo, tfNomeTipo, tfDescricaoTipo, taListaTipos);
+		ComprasController compCont = new ComprasController(tfProdutoCarrinho, tfQtd, tfValorCarrinho, tfClienteCompra,taLista);
 		EstoqueController eCont = new EstoqueController(tfBuscaCodigo, taEstoque);
 		
 		btnCadastrarProdutos.addActionListener(pCont);
 		btnBuscarProduto.addActionListener(pCont);
+		btnExcluirProduto.addActionListener(pCont);
 		
 		btnCadastraTipo.addActionListener(tpCont);
 		btnBuscaTipo.addActionListener(tpCont);
+		btnExcluirTipo.addActionListener(tpCont);
 		
 		btnCadastrarCliente.addActionListener(cfCont);
 		btnBuscarCliente.addActionListener(cfCont);
+		btnExcluirPessoa.addActionListener(cfCont);
 		
 		btnCadastrarClienteJ.addActionListener(cjCont);
 		btnBuscarClienteJ.addActionListener(cjCont);
+		btnExcluirEmpresa.addActionListener(cjCont);
 		
 		btnAdicionar.addActionListener(compCont);
 		btnExcluir.addActionListener(compCont);
