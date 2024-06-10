@@ -9,9 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.List;
+
 import java.util.Stack;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -19,12 +17,11 @@ import java.util.TimerTask;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import br.edu.fateczl.filaobj.Fila;
 import fateczl.listaSetGenerica.model.ListaSetGenerica;
 import model.Produto;
 import model.TipoProduto;
 
-public class ComprasController<E> implements ActionListener {
+public class ComprasController implements ActionListener {
 
 	private JTextField tfProdutoCarrinho;
 	private JTextField tfQtd;
@@ -85,10 +82,9 @@ public class ComprasController<E> implements ActionListener {
 
 		for (int i = tamanho - 1; i >= 0; i--) {
 			Produto produto = (Produto) pilha.get(i); // instancia cada elemento da pilha em um produto
+			// adiciona cada produto no buffer
 			buffer.append("Codigo: " + produto.tipoProduto.codIdentificador + " - Nome: " + produto.nome
-					+ " - Quantidade: " + produto.qtdEstoque + " - Valor: " + produto.valor + "\r\n"); // adiciona cada
-																										// produto no
-																										// buffer
+					+ " - Quantidade: " + produto.qtdEstoque + " - Valor: " + produto.valor + "\r\n");
 			pilha.pop();
 		}
 		taLista.setText(buffer.toString()); // seta o valor do text area com o buffer
@@ -225,7 +221,7 @@ public class ComprasController<E> implements ActionListener {
 		PrintWriter pw = new PrintWriter(fw);
 		pw.write(csvCompra + "\r\n");
 		pw.flush();
-		pw.close();
+		pw.close(); 
 		fw.close();
 	}
 

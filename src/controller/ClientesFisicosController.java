@@ -14,7 +14,7 @@ import java.io.PrintWriter;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import model.ClientesFisico;
+import model.ClienteFisico;
 import model.Endereço;
 
 public class ClientesFisicosController implements ActionListener {
@@ -69,7 +69,7 @@ public class ClientesFisicosController implements ActionListener {
 			taClientesFisicos.setText("Preencha todos os campos para concluir o cadastro");
 		} else {
 			taClientesFisicos.setText("");
-			ClientesFisico cliente = new ClientesFisico();
+			ClienteFisico cliente = new ClienteFisico();
 			cliente.endereco = new Endereço();
 
 			cliente.cpf = tfCpf.getText();
@@ -108,7 +108,7 @@ public class ClientesFisicosController implements ActionListener {
 	}
 //-------------------------------------------------------------------------------------	
 	private void busca() throws IOException {
-		ClientesFisico cliente = new ClientesFisico();
+		ClienteFisico cliente = new ClienteFisico();
 		cliente.endereco = new Endereço();
 
 		cliente.nome = tfNomeCliente.getText();
@@ -126,7 +126,7 @@ public class ClientesFisicosController implements ActionListener {
 		limpaLinhas();
 	}
 
-	private ClientesFisico buscaCliente(ClientesFisico cliente) throws IOException {
+	private ClienteFisico buscaCliente(ClienteFisico cliente) throws IOException {
 		String path = System.getProperty("user.home") + File.separator + "Sistema Cadastro";
 		File arq = new File(path, "clientes.csv");
 		

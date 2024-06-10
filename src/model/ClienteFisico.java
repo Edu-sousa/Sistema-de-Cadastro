@@ -1,6 +1,6 @@
 package model;
 
-public class ClientesFisico extends Endereço {
+public class ClienteFisico extends Endereço {
 
 	public String cpf;
 	public String nome;

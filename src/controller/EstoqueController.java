@@ -133,7 +133,7 @@ public class EstoqueController implements ActionListener {
 				String[] vetLinha = linha.split(";");
 				if (Integer.parseInt(vetLinha[0]) > maiorCodigo) {
 					maiorCodigo = Integer.parseInt(vetLinha[0]);
-				}
+				} 
 				linha = buffer.readLine();
 			}
 			buffer.close();
